@@ -1,0 +1,783 @@
+================================================================================
+         DEVOPS LAB EXAM - ALL QUESTIONS WITH STEP-BY-STEP SOLUTIONS
+================================================================================
+  Pattern: 3 Questions | Solve Any 2 | 10 marks each | 20 prog + 5 viva + 5 book
+================================================================================
+
+
+================================================================================
+Q1. Initialize a new repository using Git and commit a README.md file
+================================================================================
+
+STEP 1: Install Git (if not already installed)
+-----------------------------------------------
+sudo apt update
+sudo apt install git -y
+git --version
+
+STEP 2: Configure Git (first time setup)
+-----------------------------------------
+git config --global user.name "YourName"
+git config --global user.email "youremail@example.com"
+
+STEP 3: Create a project folder and initialize Git
+----------------------------------------------------
+mkdir my-project
+cd my-project
+git init
+
+STEP 4: Create a README.md file
+---------------------------------
+echo "# My Project" > README.md
+echo "This is a Hello World project." >> README.md
+
+STEP 5: Stage and commit the file
+-----------------------------------
+git add README.md
+git status
+git commit -m "Initial commit - added README.md"
+
+STEP 6: Verify the commit
+---------------------------
+git log --oneline
+
+
+================================================================================
+Q2. Create a simple Hello World web application (Python/Node.js) and run locally
+================================================================================
+
+--- OPTION A: Python (Flask) ---
+
+STEP 1: Install Flask
+----------------------
+pip install flask
+
+STEP 2: Create app.py
+----------------------
+cat > app.py << 'EOF'
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "<h1>Hello World!</h1>"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+EOF
+
+STEP 3: Run the application
+-----------------------------
+python app.py
+
+STEP 4: Access in browser
+---------------------------
+Open browser -> http://localhost:5000
+You will see: Hello World!
+
+--- OPTION B: Node.js ---
+
+STEP 1: Install Node.js
+------------------------
+sudo apt install nodejs npm -y
+
+STEP 2: Create app.js
+----------------------
+cat > app.js << 'EOF'
+const http = require('http');
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end('<h1>Hello World!</h1>');
+});
+server.listen(3000, () => console.log('Server running on port 3000'));
+EOF
+
+STEP 3: Run the application
+-----------------------------
+node app.js
+
+STEP 4: Access in browser
+---------------------------
+Open browser -> http://localhost:3000
+
+
+================================================================================
+Q3. Build a Docker image for the application
+================================================================================
+
+STEP 1: Install Docker
+-----------------------
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER   # logout and login after this
+
+STEP 2: Create app.py (Hello World Flask app)
+----------------------------------------------
+cat > app.py << 'EOF'
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "<h1>Hello World from Docker!</h1>"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+EOF
+
+STEP 3: Create requirements.txt
+---------------------------------
+echo "flask" > requirements.txt
+
+STEP 4: Create Dockerfile
+--------------------------
+cat > Dockerfile << 'EOF'
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]
+EOF
+
+STEP 5: Build the Docker image
+--------------------------------
+docker build -t hello-world-app .
+
+STEP 6: Verify the image was created
+--------------------------------------
+docker images
+
+
+================================================================================
+Q4. Create a new branch named feature-app and switch to it
+================================================================================
+
+STEP 1: Check current branch
+------------------------------
+git branch
+
+STEP 2: Create and switch to new branch
+-----------------------------------------
+git checkout -b feature-app
+
+   OR (two separate commands):
+   git branch feature-app
+   git checkout feature-app
+
+STEP 3: Verify you are on the new branch
+------------------------------------------
+git branch
+# The * symbol shows the active branch
+
+STEP 4: Make some changes on this branch
+------------------------------------------
+echo "Feature branch content" >> README.md
+git add .
+git commit -m "Added feature branch changes"
+
+STEP 5: View branch history
+-----------------------------
+git log --oneline
+
+
+================================================================================
+Q5. Push your project to GitHub
+================================================================================
+
+STEP 1: Create a new repository on GitHub
+-------------------------------------------
+- Go to https://github.com
+- Click "New Repository"
+- Name it: my-project
+- Keep it public
+- Do NOT initialize with README (you already have one)
+- Click "Create repository"
+
+STEP 2: Add GitHub as remote origin
+-------------------------------------
+git remote add origin https://github.com/YourUsername/my-project.git
+
+STEP 3: Push code to GitHub
+-----------------------------
+git push -u origin main
+
+   If branch is master:
+   git push -u origin master
+
+STEP 4: Push all branches
+---------------------------
+git push --all origin
+
+STEP 5: Verify on GitHub
+--------------------------
+Go to https://github.com/YourUsername/my-project
+You should see your files listed there.
+
+
+================================================================================
+Q6. Run the Docker container and access the application in the browser
+================================================================================
+
+STEP 1: Make sure Docker image exists
+---------------------------------------
+docker images
+# Should show: hello-world-app
+
+STEP 2: Run the Docker container
+----------------------------------
+docker run -d -p 5000:5000 --name mycontainer hello-world-app
+
+   Flags explained:
+   -d   = detached mode (runs in background)
+   -p   = port mapping (host:container)
+   --name = give container a name
+
+STEP 3: Check if container is running
+---------------------------------------
+docker ps
+
+STEP 4: Access in browser
+---------------------------
+Open browser -> http://localhost:5000
+You will see: Hello World from Docker!
+
+STEP 5: View container logs
+-----------------------------
+docker logs mycontainer
+
+STEP 6: Stop the container (when done)
+----------------------------------------
+docker stop mycontainer
+
+
+================================================================================
+Q7. Create and commit changes in a new branch and push it to GitHub
+================================================================================
+
+STEP 1: Create and switch to a new branch
+-------------------------------------------
+git checkout -b feature-app
+
+STEP 2: Make changes to a file
+--------------------------------
+echo "## New Feature" >> README.md
+echo "Added new feature on feature-app branch" >> README.md
+
+STEP 3: Stage and commit the changes
+--------------------------------------
+git add .
+git commit -m "Added new feature changes"
+
+STEP 4: Push the branch to GitHub
+-----------------------------------
+git push origin feature-app
+
+STEP 5: Verify on GitHub
+--------------------------
+Go to GitHub -> your repo -> click on "branches"
+You should see "feature-app" branch listed.
+
+STEP 6: Create a Pull Request (optional but good to know)
+-----------------------------------------------------------
+- On GitHub, click "Compare & pull request"
+- Add a description
+- Click "Create pull request"
+
+
+================================================================================
+Q8. Create a Dockerfile for your application
+================================================================================
+
+STEP 1: Create the Hello World Python app
+-------------------------------------------
+cat > app.py << 'EOF'
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "<h1>Hello World!</h1>"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+EOF
+
+STEP 2: Create requirements.txt
+---------------------------------
+echo "flask" > requirements.txt
+
+STEP 3: Create the Dockerfile
+-------------------------------
+cat > Dockerfile << 'EOF'
+# Use official Python base image
+FROM python:3.9-slim
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy all application files
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"]
+EOF
+
+STEP 4: Build and test the image
+----------------------------------
+docker build -t myapp .
+docker run -p 5000:5000 myapp
+
+STEP 5: Verify
+---------------
+Open browser -> http://localhost:5000
+
+
+================================================================================
+Q9. Create a Pipeline project in Jenkins
+================================================================================
+
+STEP 1: Install Jenkins (if not installed)
+--------------------------------------------
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install jenkins -y
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+
+STEP 2: Get Jenkins initial password
+--------------------------------------
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+STEP 3: Setup Jenkins
+----------------------
+- Open browser -> http://localhost:8080
+- Enter the initial password
+- Install suggested plugins
+- Create admin user
+- Click "Start using Jenkins"
+
+STEP 4: Create a Pipeline project
+-----------------------------------
+- Click "New Item"
+- Enter name: hello-world-pipeline
+- Select "Pipeline"
+- Click OK
+
+STEP 5: Configure Pipeline Script
+-----------------------------------
+In the Pipeline section, select "Pipeline script" and enter:
+
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                echo 'Cloning repository...'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building application...'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+            }
+        }
+    }
+}
+
+STEP 6: Save and Build
+-----------------------
+- Click "Save"
+- Click "Build Now"
+- Click on the build number -> "Console Output"
+- You should see all stages completing successfully
+
+
+================================================================================
+Q10. Merge the feature-app branch into the main branch
+================================================================================
+
+STEP 1: Check current branch and status
+-----------------------------------------
+git status
+git branch
+
+STEP 2: Switch to main branch
+-------------------------------
+git checkout main
+
+STEP 3: Merge feature-app into main
+-------------------------------------
+git merge feature-app
+
+STEP 4: Verify the merge
+--------------------------
+git log --oneline
+git branch
+
+STEP 5: Push merged code to GitHub
+------------------------------------
+git push origin main
+
+STEP 6: Delete the feature branch (optional - clean up)
+---------------------------------------------------------
+git branch -d feature-app                  # delete locally
+git push origin --delete feature-app       # delete on GitHub
+
+
+================================================================================
+Q11. Build and run the Docker container locally
+================================================================================
+
+STEP 1: Ensure Dockerfile and app.py exist
+--------------------------------------------
+ls -la
+# Should show: Dockerfile, app.py, requirements.txt
+
+STEP 2: Build the Docker image
+--------------------------------
+docker build -t hello-app .
+
+STEP 3: List available images
+-------------------------------
+docker images
+
+STEP 4: Run the container
+--------------------------
+docker run -d -p 5000:5000 --name hello-container hello-app
+
+STEP 5: Check running containers
+----------------------------------
+docker ps
+
+STEP 6: Access in browser
+---------------------------
+Open browser -> http://localhost:5000
+
+STEP 7: View logs
+------------------
+docker logs hello-container
+
+STEP 8: Stop and remove container
+-----------------------------------
+docker stop hello-container
+docker rm hello-container
+
+
+================================================================================
+Q12. Configure Jenkins pipeline to pull code from GitHub
+================================================================================
+
+STEP 1: Make sure Git plugin is installed in Jenkins
+------------------------------------------------------
+- Jenkins Dashboard -> Manage Jenkins -> Plugin Manager
+- Check "Git Plugin" is installed (usually installed by default)
+
+STEP 2: Create a Jenkinsfile in your project
+---------------------------------------------
+cat > Jenkinsfile << 'EOF'
+pipeline {
+    agent any
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/YourUsername/my-project.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'echo Building the application...'
+                sh 'pip install -r requirements.txt || true'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'echo Running tests...'
+            }
+        }
+        stage('Run') {
+            steps {
+                sh 'echo Application deployed successfully!'
+            }
+        }
+    }
+}
+EOF
+
+STEP 3: Push Jenkinsfile to GitHub
+------------------------------------
+git add Jenkinsfile
+git commit -m "Added Jenkinsfile for CI/CD"
+git push origin main
+
+STEP 4: Configure Jenkins Job to use GitHub
+---------------------------------------------
+- Jenkins Dashboard -> New Item -> Pipeline -> OK
+- Under "Pipeline" section:
+  - Definition: "Pipeline script from SCM"
+  - SCM: Git
+  - Repository URL: https://github.com/YourUsername/my-project.git
+  - Branch: */main
+  - Script Path: Jenkinsfile
+- Click Save
+
+STEP 5: Build and Verify
+--------------------------
+- Click "Build Now"
+- Click on build -> Console Output
+- You should see all stages running and code pulled from GitHub
+
+
+================================================================================
+Q13. Develop a simple Hello World application and commit it using Git
+================================================================================
+
+STEP 1: Initialize Git repository
+-----------------------------------
+mkdir hello-world-app
+cd hello-world-app
+git init
+git config --global user.name "YourName"
+git config --global user.email "you@example.com"
+
+STEP 2: Create the Hello World app
+------------------------------------
+cat > app.py << 'EOF'
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "<h1>Hello, World!</h1><p>Welcome to my app.</p>"
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+EOF
+
+STEP 3: Create README and requirements
+----------------------------------------
+echo "flask" > requirements.txt
+echo "# Hello World App" > README.md
+echo "A simple Flask Hello World application." >> README.md
+
+STEP 4: Stage all files
+------------------------
+git add .
+git status
+
+STEP 5: Commit the files
+-------------------------
+git commit -m "Initial commit - Hello World Flask app"
+
+STEP 6: View commit history
+-----------------------------
+git log --oneline
+
+STEP 7: Test the application
+------------------------------
+pip install flask
+python app.py
+# Open browser -> http://localhost:5000
+
+
+================================================================================
+Q14. Push a Docker image to Docker Hub
+================================================================================
+
+STEP 1: Create a Docker Hub account
+-------------------------------------
+- Go to https://hub.docker.com
+- Sign up for a free account
+- Note your Docker Hub username
+
+STEP 2: Login to Docker Hub from terminal
+-------------------------------------------
+docker login
+# Enter your Docker Hub username and password
+
+STEP 3: Build the Docker image
+--------------------------------
+docker build -t hello-world-app .
+
+STEP 4: Tag the image with your Docker Hub username
+-----------------------------------------------------
+docker tag hello-world-app YourDockerHubUsername/hello-world-app:latest
+
+   Example:
+   docker tag hello-world-app john123/hello-world-app:latest
+
+STEP 5: Push the image to Docker Hub
+--------------------------------------
+docker push YourDockerHubUsername/hello-world-app:latest
+
+STEP 6: Verify on Docker Hub
+------------------------------
+- Go to https://hub.docker.com
+- Login and go to "Repositories"
+- You should see "hello-world-app" listed
+
+STEP 7: Pull and test from Docker Hub (verification)
+------------------------------------------------------
+docker pull YourDockerHubUsername/hello-world-app:latest
+docker run -p 5000:5000 YourDockerHubUsername/hello-world-app:latest
+
+
+================================================================================
+Q15. Create pipeline stages in Jenkins to build and run the application
+================================================================================
+
+STEP 1: Create app.py
+----------------------
+cat > app.py << 'EOF'
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "<h1>Hello World from Jenkins Pipeline!</h1>"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+EOF
+
+STEP 2: Create Dockerfile
+--------------------------
+cat > Dockerfile << 'EOF'
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]
+EOF
+
+STEP 3: Create Jenkinsfile with multiple stages
+------------------------------------------------
+cat > Jenkinsfile << 'EOF'
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                echo 'Stage 1: Cloning repository...'
+                git url: 'https://github.com/YourUsername/my-project.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Stage 2: Building Docker image...'
+                sh 'docker build -t hello-world-app .'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Stage 3: Running tests...'
+                sh 'docker run --rm hello-world-app python -c "import flask; print(flask.__version__)"'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                echo 'Stage 4: Running the application...'
+                sh 'docker stop myapp || true'
+                sh 'docker rm myapp || true'
+                sh 'docker run -d -p 5000:5000 --name myapp hello-world-app'
+                echo 'Application running at http://localhost:5000'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+EOF
+
+STEP 4: Push to GitHub
+-----------------------
+git add .
+git commit -m "Added Jenkins pipeline stages"
+git push origin main
+
+STEP 5: Configure Jenkins
+--------------------------
+- New Item -> Pipeline -> OK
+- Pipeline -> SCM -> Git
+- Repo URL: https://github.com/YourUsername/my-project.git
+- Branch: */main
+- Script Path: Jenkinsfile
+- Save -> Build Now
+
+STEP 6: Monitor Stages
+-----------------------
+- Click on the build
+- You will see Stage View showing all 4 stages
+- Click "Console Output" to see detailed logs
+
+
+================================================================================
+                    QUICK REFERENCE CHEAT SHEET
+================================================================================
+
+GIT COMMANDS:
+  git init                          Initialize new repo
+  git add .                         Stage all files
+  git commit -m "message"           Commit changes
+  git branch                        List branches
+  git checkout -b branch-name       Create and switch branch
+  git merge branch-name             Merge branch into current
+  git push origin main              Push to GitHub
+  git remote add origin <url>       Link to GitHub repo
+
+DOCKER COMMANDS:
+  docker build -t name .            Build image from Dockerfile
+  docker images                     List images
+  docker run -d -p 5000:5000 name   Run container
+  docker ps                         List running containers
+  docker stop container-name        Stop container
+  docker rm container-name          Remove container
+  docker push username/imagename    Push to Docker Hub
+  docker pull username/imagename    Pull from Docker Hub
+
+JENKINS PIPELINE STAGES:
+  Clone -> Build -> Test -> Deploy
+
+DEFAULT PORTS:
+  Flask App  -> 5000
+  Node.js    -> 3000
+  Jenkins    -> 8080
+
+================================================================================
+                          BEST OF LUCK FOR YOUR EXAM!
+================================================================================
