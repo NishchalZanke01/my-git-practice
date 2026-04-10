@@ -1,0 +1,532 @@
+================================================================================
+              DEVOPS LAB EXAM - VIVA QUESTIONS WITH ANSWERS
+                    Based on Complete Theory + Lab Syllabus
+================================================================================
+
+
+================================================================================
+                        UNIT 1 - VERSION CONTROL & AGILE
+================================================================================
+
+Q1. What is DevOps?
+A: DevOps is a combination of Development and Operations. It is a set of practices
+   that automates and integrates the processes between software development and
+   IT teams so they can build, test, and release software faster and reliably.
+
+Q2. What is CI/CD?
+A: CI stands for Continuous Integration - developers frequently merge code changes
+   into a shared repository and automated builds/tests run on every push.
+   CD stands for Continuous Delivery/Deployment - code that passes CI is
+   automatically deployed to staging or production environments.
+
+Q3. What is Git?
+A: Git is a distributed version control system that tracks changes in source code
+   during software development. It allows multiple developers to work on the same
+   project simultaneously without conflicts.
+
+Q4. What is the difference between git add, git commit, and git push?
+A: - git add    : Moves changes from working directory to staging area
+   - git commit : Saves staged changes to local repository with a message
+   - git push   : Uploads local commits to a remote repository (e.g., GitHub)
+
+Q5. What is a Git branch and why do we use it?
+A: A branch is an independent line of development. We use branches to work on
+   new features or bug fixes without affecting the main/production code. Example:
+   feature-app branch for new development, main branch for stable code.
+
+Q6. What is the command to create and switch to a new branch?
+A: git checkout -b feature-app
+   OR (newer syntax): git switch -c feature-app
+
+Q7. What is git merge?
+A: git merge combines the changes from one branch into another. When you finish
+   a feature on feature-app branch, you merge it into main:
+   git checkout main
+   git merge feature-app
+
+Q8. What is the difference between git pull and git fetch?
+A: - git fetch  : Downloads changes from remote but does NOT merge them locally
+   - git pull   : Downloads AND merges changes (fetch + merge in one command)
+
+Q9. What is a remote repository?
+A: A remote repository is a version of your project hosted on the internet or
+   network (like GitHub, GitLab). It allows team collaboration. You connect to it
+   using: git remote add origin <URL>
+
+Q10. What is GitHub?
+A: GitHub is a cloud-based hosting service for Git repositories. It provides a
+    web interface to manage code, track issues, review pull requests, and
+    collaborate with teams.
+
+Q11. What is Agile methodology?
+A: Agile is an iterative software development approach where work is divided into
+    small increments called sprints. It focuses on collaboration, flexibility,
+    and delivering working software frequently.
+
+Q12. What is Jira?
+A: Jira is a project management tool by Atlassian used to plan, track, and manage
+    agile software development. It supports issue tracking, Kanban boards, and
+    sprint planning.
+
+Q13. What is a Kanban board?
+A: A Kanban board is a visual workflow management tool with columns like
+    "To Do", "In Progress", and "Done". It helps teams visualize work, limit
+    work-in-progress, and improve flow efficiency.
+
+Q14. What is a User Story in Jira?
+A: A User Story is a simple description of a feature from the end user's
+    perspective. Format: "As a [user], I want [goal] so that [benefit]."
+    Example: "Develop and Containerize the Hello World Web App"
+
+Q15. What is .gitignore?
+A: .gitignore is a file that tells Git which files or folders to ignore and not
+    track. Example: node_modules/, __pycache__/, .env files.
+
+Q16. What is git clone?
+A: git clone copies an existing remote repository to your local machine.
+    Command: git clone https://github.com/username/repo.git
+
+Q17. What is git status?
+A: git status shows the current state of the working directory and staging area.
+    It shows which files are modified, staged, or untracked.
+
+Q18. What is git log?
+A: git log shows the commit history of the repository.
+    git log --oneline shows a compact one-line summary of each commit.
+
+Q19. What is a Pull Request (PR)?
+A: A Pull Request is a request to merge changes from one branch into another on
+    GitHub. It allows team members to review and discuss the code before merging.
+
+Q20. What is the HEAD in Git?
+A: HEAD is a pointer that refers to the current commit/branch you are working on.
+    It represents the latest state of your current branch.
+
+
+================================================================================
+                    UNIT 2 - CONTINUOUS INTEGRATION WITH JENKINS
+================================================================================
+
+Q21. What is Jenkins?
+A: Jenkins is an open-source automation server used to implement CI/CD pipelines.
+    It automates building, testing, and deploying applications whenever code
+    changes are pushed to a repository.
+
+Q22. What is the default port of Jenkins?
+A: Jenkins runs on port 8080 by default.
+    Access it at: http://localhost:8080
+
+Q23. What is a Jenkins Pipeline?
+A: A Jenkins Pipeline is a suite of plugins that supports implementing and
+    integrating continuous delivery pipelines. It defines the build/test/deploy
+    steps as code in a Jenkinsfile.
+
+Q24. What is a Declarative Pipeline in Jenkins?
+A: Declarative Pipeline is a simplified, structured syntax for writing Jenkins
+    pipelines. It uses the pipeline { } block with predefined sections like
+    agent, stages, stage, steps, and post.
+
+Q25. What is the difference between Freestyle and Pipeline projects in Jenkins?
+A: - Freestyle : Simple, GUI-based project. Good for basic tasks. Not stored as code.
+   - Pipeline  : Code-based (Jenkinsfile). More powerful, supports complex workflows,
+                 version-controllable, and supports CI/CD stages.
+
+Q26. Write a basic Declarative Pipeline structure.
+A: pipeline {
+       agent any
+       stages {
+           stage('Build') {
+               steps {
+                   echo 'Building...'
+               }
+           }
+           stage('Test') {
+               steps {
+                   echo 'Testing...'
+               }
+           }
+           stage('Deploy') {
+               steps {
+                   echo 'Deploying...'
+               }
+           }
+       }
+   }
+
+Q27. What does "agent any" mean in Jenkins pipeline?
+A: "agent any" means Jenkins can run the pipeline on any available agent/node.
+    It tells Jenkins to allocate any executor to run the pipeline.
+
+Q28. What is a Jenkinsfile?
+A: A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline.
+    It is stored in the root of the source code repository and treated as code.
+
+Q29. What is a Jenkins plugin?
+A: Jenkins plugins are extensions that add functionality to Jenkins.
+    Important plugins: Git Plugin, Docker Pipeline Plugin, Pipeline Plugin,
+    GitHub Integration Plugin.
+
+Q30. What are Pipeline Parameters in Jenkins?
+A: Pipeline Parameters allow users to pass input values to the pipeline at
+    runtime. Defined using the parameters {} block:
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main')
+    }
+
+Q31. What is the post block in Jenkins pipeline?
+A: The post block defines actions to run after the pipeline stages complete.
+    post {
+        success { echo 'Success!' }
+        failure { echo 'Failed!' }
+        always  { echo 'Always runs' }
+    }
+
+Q32. How does Jenkins pull code from GitHub?
+A: In pipeline configuration, set SCM to Git and provide the repository URL.
+    In Jenkinsfile: git url: 'https://github.com/user/repo.git', branch: 'main'
+
+Q33. What is a Jenkins build trigger?
+A: Build triggers define when a pipeline runs automatically.
+    Examples: Poll SCM (check for changes periodically), GitHub webhook
+    (trigger on push), Build periodically (cron-like schedule).
+
+Q34. What is the Jenkins workspace?
+A: The Jenkins workspace is a directory on the Jenkins server where it stores
+    the source code checked out from the repository for a particular job/build.
+
+Q35. What is ${BUILD_NUMBER} in Jenkins?
+A: ${BUILD_NUMBER} is a built-in Jenkins environment variable that holds the
+    sequential number of the current build. Used for image tagging:
+    docker tag myapp:${BUILD_NUMBER}
+
+
+================================================================================
+                      UNIT 3 - CONTAINERIZATION WITH DOCKER
+================================================================================
+
+Q36. What is Docker?
+A: Docker is an open-source platform that allows you to package applications
+    and their dependencies into containers. Containers are lightweight, portable,
+    and run consistently across different environments.
+
+Q37. What is the difference between a Docker Image and a Docker Container?
+A: - Image     : A read-only template with instructions for creating a container.
+                 Like a blueprint or class.
+   - Container : A running instance of an image. Like an object from a class.
+                 You can run multiple containers from one image.
+
+Q38. What is a Dockerfile?
+A: A Dockerfile is a text file with a set of instructions to build a Docker image.
+    Each instruction creates a layer in the image.
+    Example instructions: FROM, WORKDIR, COPY, RUN, EXPOSE, CMD
+
+Q39. Explain the common Dockerfile instructions.
+A: FROM      - Specifies the base image (e.g., FROM python:3.9-slim)
+   WORKDIR   - Sets the working directory inside the container
+   COPY      - Copies files from host to container
+   RUN       - Executes commands during image build (e.g., pip install)
+   EXPOSE    - Documents the port the container listens on
+   CMD       - Specifies the default command to run when container starts
+   ENV       - Sets environment variables
+
+Q40. Write a simple Dockerfile for a Python Flask app.
+A: FROM python:3.9-slim
+   WORKDIR /app
+   COPY requirements.txt .
+   RUN pip install -r requirements.txt
+   COPY . .
+   EXPOSE 5000
+   CMD ["python", "app.py"]
+
+Q41. What is the command to build a Docker image?
+A: docker build -t image-name .
+   The -t flag tags the image with a name.
+   The . means use the Dockerfile in the current directory.
+
+Q42. What is the command to run a Docker container?
+A: docker run -d -p 5000:5000 --name mycontainer image-name
+   -d        = detached (background)
+   -p        = port mapping (host:container)
+   --name    = assign a name to the container
+
+Q43. What is port mapping in Docker?
+A: Port mapping connects a port on the host machine to a port inside the container.
+    Format: -p host_port:container_port
+    Example: -p 8080:5000 means access via localhost:8080, maps to container port 5000.
+
+Q44. What is Docker Hub?
+A: Docker Hub is a cloud-based registry service where Docker images are stored and
+    shared. It hosts official images (python, nginx, etc.) and user images.
+    Website: https://hub.docker.com
+
+Q45. How do you push an image to Docker Hub?
+A: Step 1: docker login
+   Step 2: docker tag myapp username/myapp:latest
+   Step 3: docker push username/myapp:latest
+
+Q46. What is a Docker Volume?
+A: A Docker Volume is a persistent storage mechanism for containers. Data in a
+    volume persists even after the container is stopped or deleted.
+    Command: docker run -v myvolume:/app/data image-name
+
+Q47. What is the difference between COPY and ADD in Dockerfile?
+A: - COPY : Simply copies files from host to container. Preferred for basic use.
+   - ADD  : Like COPY but can also extract tar files and download from URLs.
+            COPY is recommended unless you specifically need ADD's extra features.
+
+Q48. What is the difference between CMD and ENTRYPOINT in Dockerfile?
+A: - CMD        : Provides default command. Can be overridden at runtime.
+   - ENTRYPOINT : Sets the main command. Cannot be easily overridden.
+                  CMD is usually preferred for flexibility.
+
+Q49. What are useful Docker commands?
+A: docker images            - List all images
+   docker ps                - List running containers
+   docker ps -a             - List all containers (including stopped)
+   docker stop <name>       - Stop a running container
+   docker rm <name>         - Remove a container
+   docker rmi <image>       - Remove an image
+   docker logs <name>       - View container logs
+   docker exec -it <name> bash  - Access container terminal
+
+Q50. What is Docker Compose?
+A: Docker Compose is a tool for defining and running multi-container Docker
+    applications. You define services in a docker-compose.yml file and manage
+    them with a single command.
+
+Q51. Write a basic docker-compose.yml structure.
+A: version: '3'
+   services:
+     frontend:
+       build: ./frontend
+       ports:
+         - "3000:3000"
+     backend:
+       build: ./backend
+       ports:
+         - "5000:5000"
+   networks:
+     default:
+       driver: bridge
+
+Q52. What is the command to start all services in Docker Compose?
+A: docker-compose up -d           (start in detached/background mode)
+   docker-compose up --build      (rebuild images and start)
+   docker-compose down            (stop and remove containers)
+
+Q53. What is a Docker network?
+A: Docker networks allow containers to communicate with each other.
+    By default, Docker Compose creates a default network for all services.
+    Containers in the same network can reach each other by service name.
+
+Q54. What is the difference between docker stop and docker kill?
+A: - docker stop : Gracefully stops a container (sends SIGTERM signal, waits)
+   - docker kill : Forcefully stops a container immediately (sends SIGKILL)
+
+
+================================================================================
+              UNIT 4 - CONTAINER ORCHESTRATION (KUBERNETES & SWARM)
+================================================================================
+
+Q55. What is Container Orchestration?
+A: Container Orchestration is the automated management of containerized applications
+    including deployment, scaling, networking, and availability.
+    Tools: Kubernetes, Docker Swarm
+
+Q56. What is Kubernetes?
+A: Kubernetes (K8s) is an open-source container orchestration platform developed
+    by Google. It automates deployment, scaling, and management of containerized
+    applications across a cluster of machines.
+
+Q57. What are the main components of Kubernetes?
+A: - Pod         : Smallest deployable unit, holds one or more containers
+   - Node        : A machine (VM or physical) in the cluster
+   - Cluster     : Group of nodes managed by Kubernetes
+   - Deployment  : Manages desired state of pods
+   - Service     : Exposes pods to network traffic
+   - kubectl     : CLI tool to interact with Kubernetes
+
+Q58. What is a Pod in Kubernetes?
+A: A Pod is the smallest and simplest unit in Kubernetes. It represents a single
+    instance of a running process in the cluster and can contain one or more
+    containers that share storage and network.
+
+Q59. What is Docker Swarm?
+A: Docker Swarm is Docker's built-in container orchestration tool. It turns a
+    group of Docker hosts into a single virtual Docker host, allowing you to
+    deploy and scale services across multiple machines.
+
+Q60. What is the difference between Kubernetes and Docker Swarm?
+A: - Docker Swarm : Simpler to set up, built into Docker, less features
+   - Kubernetes   : More complex, more powerful, better for large scale,
+                    industry standard for production deployments
+
+Q61. What is Auto-scaling in Kubernetes?
+A: Auto-scaling automatically adjusts the number of pod replicas based on
+    CPU/memory usage or custom metrics. The Horizontal Pod Autoscaler (HPA)
+    increases replicas under high load and decreases them when load drops.
+
+Q62. What is Self-healing in Kubernetes?
+A: Self-healing means Kubernetes automatically restarts failed containers,
+    replaces containers when nodes die, and kills containers that don't respond
+    to health checks, then replaces them with new ones.
+
+Q63. What is the command to scale services in Docker Swarm?
+A: docker service scale service-name=5
+    This scales the service to 5 replicas across the swarm nodes.
+
+
+================================================================================
+                      UNIT 5 - CI/CD PIPELINE & IaC
+================================================================================
+
+Q64. What is Infrastructure as Code (IaC)?
+A: IaC is the practice of managing and provisioning infrastructure (servers,
+    networks, databases) using machine-readable configuration files instead of
+    manual processes. Tools: Terraform, Ansible, CloudFormation.
+
+Q65. What is Terraform?
+A: Terraform is an open-source IaC tool by HashiCorp. It allows you to define
+    cloud infrastructure in configuration files (.tf files) and provision it
+    across multiple cloud providers (AWS, Azure, GCP) using a single workflow.
+
+Q66. What are the main Terraform commands?
+A: terraform init    - Initialize working directory, download providers
+   terraform plan    - Preview changes before applying
+   terraform apply   - Create/modify infrastructure
+   terraform destroy - Remove infrastructure
+
+Q67. What is a complete CI/CD pipeline flow?
+A: Developer pushes code to GitHub
+   → Jenkins detects the push (webhook or polling)
+   → Stage 1: Checkout - pulls latest code
+   → Stage 2: Build - docker build creates image
+   → Stage 3: Test - runs automated tests
+   → Stage 4: Push - pushes image to Docker Hub
+   → Stage 5: Deploy - runs new Docker container
+   → Application is live with latest changes
+
+Q68. What is a Docker Registry?
+A: A Docker Registry is a storage and distribution system for Docker images.
+    Docker Hub is the public registry. Organizations use private registries for
+    security. Jenkins pushes built images to registry; deploy stage pulls from it.
+
+Q69. What is the purpose of tagging images with build number in Jenkins?
+A: Tagging images with the build number (e.g., myapp:45) provides traceability.
+    You can identify exactly which build produced which image, rollback to a
+    previous version if needed, and avoid overwriting images with :latest tag.
+
+Q70. What is a Webhook in the context of Jenkins and GitHub?
+A: A Webhook is an HTTP callback that GitHub sends to Jenkins when code is pushed.
+    Jenkins listens for this notification and automatically triggers the pipeline,
+    enabling true automation without manual intervention or polling.
+
+
+================================================================================
+                     LAB-SPECIFIC VIVA QUESTIONS
+================================================================================
+
+Q71. What is the git command to initialize a repository?
+A: git init
+    This creates a hidden .git folder in the current directory which tracks all
+    changes.
+
+Q72. What is the sequence of commands to create and push a first commit?
+A: git init
+   git add README.md      (or git add . for all files)
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/user/repo.git
+   git push -u origin main
+
+Q73. What does the -u flag do in git push -u origin main?
+A: The -u flag sets the upstream tracking reference. After this, future pushes
+    from this branch only need git push (no need to specify origin main again).
+
+Q74. Why do we use feature branches?
+A: Feature branches isolate development work. Developers work on feature-app
+    branch without breaking the main branch. Once the feature is complete and
+    tested, it is merged into main. This supports parallel development.
+
+Q75. What does docker build -t myapp . do?
+A: It builds a Docker image using the Dockerfile in the current directory (.)
+    and tags/names the image as "myapp".
+
+Q76. What does -p 8080:5000 mean in docker run?
+A: It maps port 8080 on the host machine to port 5000 inside the container.
+    You access the app via localhost:8080 in the browser, which routes to
+    the Flask app running on port 5000 inside the container.
+
+Q77. Why do we use docker-compose for multi-container apps?
+A: Managing multiple containers separately (frontend, backend, database) with
+    individual docker run commands is complex. Docker Compose lets you define
+    all services in one docker-compose.yml and manage them with one command.
+
+Q78. What is the purpose of EXPOSE in Dockerfile?
+A: EXPOSE documents which port the application inside the container listens on.
+    It does NOT actually publish the port - you still need -p in docker run.
+    It acts as documentation and is used by docker-compose for port configuration.
+
+Q79. What happens when you run docker-compose up --build?
+A: It rebuilds all images from their Dockerfiles (even if they exist) and then
+    starts all the services defined in docker-compose.yml.
+
+Q80. What is the difference between docker-compose up and docker-compose up -d?
+A: docker-compose up     : Starts containers and shows logs in the terminal.
+                           Terminal is blocked - Ctrl+C stops everything.
+   docker-compose up -d  : Starts containers in detached (background) mode.
+                           Terminal is free. Use docker-compose logs to view logs.
+
+Q81. In Jenkins pipeline, what does the Checkout stage do?
+A: The Checkout stage pulls the latest source code from the Git repository
+    (GitHub) into the Jenkins workspace so subsequent stages can build and
+    test the code.
+
+Q82. What is the Deploy stage in the Jenkins pipeline doing?
+A: The Deploy stage:
+    1. Stops and removes the old running container
+    2. Runs the newly built image as a fresh container
+    This ensures the latest code is always running.
+
+Q83. Why do we stop the old container before running the new one in Jenkins Deploy?
+A: Because two containers cannot bind to the same host port. If we try to run a
+    new container on port 5000 while an old container is already using port 5000,
+    it will throw a "port already in use" error.
+
+Q84. What is the difference between docker-compose down and docker-compose stop?
+A: docker-compose stop : Stops running containers but does not remove them
+   docker-compose down : Stops AND removes containers, networks, and volumes
+
+Q85. What is an Epic in Jira?
+A: An Epic is a large body of work that can be broken down into smaller tasks
+    called Stories. Example: "Automate Deployment of To-Do App" is an Epic
+    containing multiple stories for frontend, backend, and CI/CD setup.
+
+
+================================================================================
+                    MOST LIKELY VIVA QUESTIONS (TOP 20)
+================================================================================
+
+1.  What is DevOps and why is it used?
+2.  What is the difference between git add, commit and push?
+3.  What is a Docker container vs Docker image?
+4.  What is a Dockerfile? Write one for Python Flask.
+5.  What is Docker Compose and when do we use it?
+6.  What is Jenkins and what is its purpose?
+7.  What is CI/CD? Explain with example.
+8.  What is a Jenkins Pipeline? Write its basic structure.
+9.  What is the command to build and run a Docker container?
+10. What is port mapping? Explain -p 8080:5000.
+11. How do you push an image to Docker Hub?
+12. What is a feature branch? Why do we use it?
+13. What is git merge? What command did you use?
+14. What is Kubernetes used for?
+15. What is the difference between Kubernetes and Docker Swarm?
+16. What is Terraform?
+17. What is a Jenkinsfile? Where is it stored?
+18. What are the stages in your Jenkins pipeline?
+19. What is docker-compose up --build?
+20. What is Infrastructure as Code?
+
+================================================================================
+                      BEST OF LUCK FOR YOUR VIVA!
+================================================================================
